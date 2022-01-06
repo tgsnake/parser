@@ -1,0 +1,39 @@
+{
+  "name": "@tgsnake/parser",
+  "version": "1.0.0",
+  "description": "core framework for tgsnake for parsing message.",
+  "main": "./lib/index.js",
+  "scripts": {
+    "dev": "ts-node ./tes/index.ts",
+    "prepare": "husky install && echo \"🐍 Building snake package.\" && tsc",
+    "build": "tsc",
+    "pretty-quick": "pretty-quick --staged --pattern \"src/**/*.*(js|jsx|ts|tsx)\"",
+    "prettier": "prettier -w ./src",
+    "update": "yarn upgrade-interactive --latest"
+  },
+  "homepage": "https://tgsnake.js.org",
+  "keywords": [
+    "tgsnake"
+  ],
+  "bugs": "https://github.com/tgsnake/parser/issues",
+  "repository": "https://github.com/tgsnake/parser",
+  "author": "butthx",
+  "license": "MIT",
+  "files": [
+    "lib/**/*"
+  ],
+  "private": false,
+  "dependencies": {
+    "big-integer": "^1.6.51",
+    "htmlparser2": "^7.2.0",
+    "util": "^0.12.4"
+  },
+  "devDependencies": {
+    "@types/node": "17.0.4",
+    "husky": "^7.0.4",
+    "prettier": "2.5.1",
+    "pretty-quick": "3.1.3",
+    "ts-node": "10.4.0",
+    "typescript": "4.5.4"
+  }
+}
