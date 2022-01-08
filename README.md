@@ -74,7 +74,7 @@ for escaping just add backslash (`\`) before markdown syntax.
 "<pre><code>pre</code></pre>"  || "<pre><code language-javascript >pre</code></pre>"
 "<a href="link">text</a>"
 "<u>underline</u>" 
-"<spoiler>spoiler</spoiler>" || "<sp>spoiler</sp>" || "<tg-spoiler>spoiler</tg-spoiler>" || "<span class="tg-spoiler">spoiler</span>"
+"<spoiler>spoiler</spoiler>" || "<sp>spoiler</sp>" || "<tg-spoiler>spoiler</tg-spoiler>" || '<span class="tg-spoiler">spoiler</span>'
 "<blockquote>blockquote</blockquote>"
 ```
 **Escaping**  
@@ -87,7 +87,7 @@ for escaping replace `<` with `&lt;` , `>` with `&rt;` , `&` with `&amp;`
 "&lt;pre&rt;&lt;code&rt;pre&lt;/code&rt;&lt;/pre&rt;"  || "&lt;pre&rt;&lt;code language-javascript &rt;pre&lt;/code&rt;&lt;/pre&rt;"
 "&lt;a href="link"&rt;text&lt;/a&rt;"
 "&lt;u&rt;underline&lt;/u&rt;" 
-"&lt;spoiler&rt;spoiler&lt;/spoiler&rt;" || "&lt;sp&rt;spoiler&lt;/sp&rt;" || "&lt;tg-spoiler&rt;spoiler&lt;/tg-spoiler&rt;" || "&lt;span class="tg-spoiler"&rt;spoiler&lt;/span&rt;"
+"&lt;spoiler&rt;spoiler&lt;/spoiler&rt;" || "&lt;sp&rt;spoiler&lt;/sp&rt;" || "&lt;tg-spoiler&rt;spoiler&lt;/tg-spoiler&rt;" || '&lt;span class="tg-spoiler"&rt;spoiler&lt;/span&rt;'
 "&lt;blockquote&rt;blockquote&lt;/blockquote&rt;"
 ```
   
