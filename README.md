@@ -1,5 +1,4 @@
-
-- core framework for tgsnake for parsing message.   
+core framework for tgsnake for parsing message.   
 example : 
 ```js 
 "**bold**"
