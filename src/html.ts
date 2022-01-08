@@ -180,7 +180,15 @@ class HTMLParser implements Handler {
   onprocessinginstruction(name: string, data: string): void {}
   onreset(): void {}
 }
-
+function inRange(x, min, max) {
+  return (x - min) * (x - max) <= 0;
+}
+function unEscape(text) {
+  return text
+    .replace(/\&amp\;/gm, "&")
+    .replace(/\&lt\;/gm, "<")
+    .replace(/\&rt\;/gm, ">");
+}
 export function parse(html: string): [string, Entities[]] {
   if (!html) {
     return [html, []];
@@ -190,5 +198,32 @@ export function parse(html: string): [string, Entities[]] {
   parser.write(html);
   parser.end();
   const text = stripText(handler.text, handler.entities);
-  return [text, handler.entities];
+  const entities: Entities[] = handler.entities;
+  entities.sort((a, b) => {
+    return a.offset - b.offset;
+  });
+  // remove any entities if it inside code-style.
+  for (let im = 0; im < entities.length; im++) {
+    let em = entities[im];
+    let pm = entities[im - 1];
+    let nm = entities[im + 1];
+    if (nm) {
+      if (inRange(nm.offset, em.offset, em.offset + em.length)) {
+        if (em.type == "code") {
+          if (nm.type !== "spoiler") entities.splice(im + 1, 1);
+        } else if (nm.type == "code") {
+          if (em.type !== "spoiler") entities.splice(im, 1);
+        }
+      }
+    } else if (pm) {
+      if (inRange(pm.offset, em.offset, em.offset + em.length)) {
+        if (em.type == "code") {
+          if (pm.type !== "spoiler") entities.splice(im - 1, 1);
+        } else if (pm.type == "code") {
+          if (em.type !== "spoiler") entities.splice(im, 1);
+        }
+      }
+    }
+  }
+  return [unEscape(text), entities];
 }
