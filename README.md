@@ -44,84 +44,52 @@ parser.fromRaw(raw_entities)
 ```
 ## available parseMode 
 ### markdown 
-- bold   
-  using double star (`**`) to formating text as bold.  
-  example :  
-  ```ts 
-  **bold**
-  ```  
-  for escaping, just add backslash `\\` before star.   
-  example :  
-  ```ts 
-  \\**escaped\\**
-  ```
-- italic    
-  using double underscore (`__`) to formating text as italic.  
-  example :  
-  ```ts 
-  __italic__
-  ```  
-  for escaping, just add backslash `\\` before underscore.   
-  example :  
-  ```ts 
-  \\__escaped\\__
-  ```
-- underline   
-  using double line (`--`) to formating text as underline.  
-  example :  
-  ```ts 
-  --underline--
-  ```  
-  for escaping, just add backslash `\\` before line.   
-  example :  
-  ```ts 
-  \\--escaped\\--
-  ```
-- strike   
-  using double waveline (`~~`) to formating text as strike.  
-  example :  
-  ```ts 
-  ~~strike~~
-  ```  
-  for escaping, just add backslash `\\` before waveline   
-  example :  
-  ```ts 
-  \\~~escaped\\~~
-  ```
-- spoiler   
-  using double pipe (`||`) to formating text as spoiler.  
-  example :  
-  ```ts 
-  ||spoiler||
-  ```  
-  for escaping, just add backslash `\\` before pipe.   
-  example :  
-  ```ts 
-  \\||escaped\\||
-  ```
-- code   
-  using backtick (`` ` ``) to formating text as code.  
-  example :  
-  ```ts 
-  `bold`
-  ```  
-  for escaping, just add `\\` before backtick.   
-  example :  
-  ```ts 
-  \\`escaped\\`
-  ```
-- pre  
-  using triple backtick (`` ``` ``) to formating text as pre.    
-  example :  
-  ```ts 
-  ```bold```
-  ```  
-  for escaping, just add `\\` before backtick.   
-  example :  
-  ```ts 
-  \\```escaped\\```
-  ```
-## html
-the html format is same with bot api, so you can check that.
+```ts 
+"**bold**"
+"__italic__"
+"~~strike~~"
+"`code`" 
+"```pre```" 
+"[text](link)"
+"--underline--" 
+"||spoiler||"
+```
+**Escaping**  
+for escaping just add backslash (`\`) before markdown syntax.
+```ts
+"\\**bold\\**"
+"\\__italic\\__"
+"\\~~strike\\~~"
+"\\`code\\`" 
+"\\```pre\\```" 
+"[text]\\(link)"
+"\\--underline\\--" 
+"\\||spoiler\\||"
+```
+### html 
+```ts 
+"<b>bold</b>" || "<strong>bold</strong>"
+"<i>italic</i>" || "<em>italic</em>"
+"<s>strike</s>" || "<del>strike</del>"
+"<code>code</code>" 
+"<pre><code>pre</code></pre>"  || "<pre><code language-javascript >pre</code></pre>"
+"<a href="link">text</a>"
+"<u>underline</u>" 
+"<spoiler>spoiler</spoiler>" || "<sp>spoiler</sp>" || "<tg-spoiler>spoiler</tg-spoiler>" || "<span class="tg-spoiler">spoiler</span>"
+"<blockquote>blockquote</blockquote>"
+```
+**Escaping**  
+for escaping replace `<` with `&lt;` , `>` with `&rt;` , `&` with `&amp;`
+```ts 
+"&lt;b&rt;bold&lt;/b&rt;" || "&lt;strong&rt;bold&lt;/strong&rt;"
+"&lt;i&rt;italic&lt;/i&rt;" || "&lt;em&rt;italic&lt;/em&rt;"
+"&lt;s&rt;strike&lt;/s&rt;" || "&lt;del&rt;strike&lt;/del&rt;"
+"&lt;code&rt;code&lt;/code&rt;" 
+"&lt;pre&rt;&lt;code&rt;pre&lt;/code&rt;&lt;/pre&rt;"  || "&lt;pre&rt;&lt;code language-javascript &rt;pre&lt;/code&rt;&lt;/pre&rt;"
+"&lt;a href="link"&rt;text&lt;/a&rt;"
+"&lt;u&rt;underline&lt;/u&rt;" 
+"&lt;spoiler&rt;spoiler&lt;/spoiler&rt;" || "&lt;sp&rt;spoiler&lt;/sp&rt;" || "&lt;tg-spoiler&rt;spoiler&lt;/tg-spoiler&rt;" || "&lt;span class="tg-spoiler"&rt;spoiler&lt;/span&rt;"
+"&lt;blockquote&rt;blockquote&lt;/blockquote&rt;"
+```
   
 Build with ♥️ by [tgsnake dev](https://t.me/+Fdu8unNApTg3ZGU1).

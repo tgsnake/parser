@@ -27,7 +27,7 @@ const DEFAULT_DELIMITERS = {
   __: "i",
   "```": "pre",
   "`": "code",
-  "~~": "strike",
+  "~~": "s",
   "||": "spoiler",
   "--": "u",
 };
