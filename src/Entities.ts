@@ -23,7 +23,8 @@ export type TypeMessageEntity =
   | "strike"
   | "blockquote"
   | "bankCard"
-  | "spoiler";
+  | "spoiler"
+  | "inputMentionName";
 export interface IEntities {
   offset: number;
   length: number;

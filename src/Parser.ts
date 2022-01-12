@@ -192,6 +192,19 @@ export class Parser {
         );
         continue;
       }
+      if (ent instanceof raw.InputMessageEntityMentionName) {
+        //@ts-ignore
+        ent as raw.InputMessageEntityMentionName;
+        tmp.push(
+          new Entities({
+            offset: ent.offset,
+            length: ent.length,
+            userId: BigInt(String(ent.userId)),
+            type: "inputMentionName",
+          })
+        );
+        continue;
+      }
       if (ent instanceof raw.MessageEntityPhone) {
         //@ts-ignore
         ent as raw.MessageEntityPhone;
@@ -283,11 +296,19 @@ export class Parser {
    * converting tgsnake entities to raw entities.
    * @param {Object} entities - input tgsnake entities
    */
-  toRaw(entities: Entities[]) {
+  async toRaw(client: any, entities: Entities[]) {
     if (!this.raw) {
       throw new ParserError(
         `Raw not found!`,
         `Plase make sure you set the raw. eg : new Parser(raw).`,
+        404,
+        "Parser.fromRaw"
+      );
+    }
+    if (!client) {
+      throw new ParserError(
+        `Client not found!`,
+        `Plase make sure you set the client. eg : Parser.fromRaw(client,entities).`,
         404,
         "Parser.fromRaw"
       );
@@ -389,12 +410,13 @@ export class Parser {
           );
           break;
         case "mentionName":
+        case "inputMentionName":
           tmp.push(
             //@ts-ignore
-            new raw.MessageEntityMentionName({
+            new raw.InputMessageEntityMentionName({
               offset: ent.offset,
               length: ent.length,
-              userId: bigInt(String(ent.userId)),
+              userId: await client.getInputEntity(bigInt(String(ent.userId))),
             })
           );
           break;

@@ -1,6 +1,6 @@
 {
   "name": "@tgsnake/parser",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "core framework for tgsnake for parsing message.",
   "main": "./lib/index.js",
   "scripts": {

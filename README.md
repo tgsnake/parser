@@ -35,7 +35,7 @@ console.log(parser.parse(text,"markdown"))
 ```
 ## converting tgsnake entities to raw api
 ```ts 
-parser.toRaw(tgsnake_entities)
+parser.toRaw(gramjs_client,tgsnake_entities)
 ```
 ## converting raw entities to tgsnake entities
 ```ts 
