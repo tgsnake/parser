@@ -20,13 +20,13 @@
     "lib/**/*"
   ],
   "dependencies": {
-    "htmlparser2": "^8.0.0"
+    "htmlparser2": "^8.0.2"
   },
   "devDependencies": {
-    "@tgsnake/core": "^1.6.2",
-    "@types/node": "17.0.4",
+    "@tgsnake/core": "^1.6.3",
+    "@types/node": "^18.15.10",
     "deno2node": "^1.7.2",
-    "prettier": "2.5.1"
+    "prettier": "^2.8.7"
   },
   "packageManager": "yarn@3.5.0"
 }
