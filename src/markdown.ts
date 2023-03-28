@@ -5,31 +5,21 @@
 //
 // Tgsnake is a free software : you can redistribute it and/or modify
 //  it under the terms of the MIT License as published.
-import { Entities, IEntities } from "./Entities";
-import { format } from "util";
-import { parse as HTMLParser } from "./html";
+import { Entities, IEntities } from './Entities.ts';
+import { parse as HTMLParser } from './html.ts';
 
-function splice(
-  source: string,
-  start: number,
-  delCount: number,
-  newSubStr: string
-) {
-  return (
-    source.slice(0, start) +
-    newSubStr +
-    source.slice(start + Math.abs(delCount))
-  );
+function splice(source: string, start: number, delCount: number, newSubStr: string) {
+  return source.slice(0, start) + newSubStr + source.slice(start + Math.abs(delCount));
 }
 
 const DEFAULT_DELIMITERS = {
-  "**": "b",
-  __: "i",
-  "```": "pre",
-  "`": "code",
-  "~~": "s",
-  "||": "spoiler",
-  "--": "u",
+  '**': 'b',
+  __: 'i',
+  '```': 'pre',
+  '`': 'code',
+  '~~': 's',
+  '||': 'spoiler',
+  '--': 'u',
 };
 // [text](link)
 //const LINK_FORMAT = "[%s](%s)"
@@ -47,10 +37,7 @@ function execAll(text: string, regex: RegExp) {
   return list;
 }
 function replaceTag(text) {
-  return text
-    .replace(/\&/gm, "&amp;")
-    .replace(/\</gm, "&lt;")
-    .replace(/\>/gm, "&rt;");
+  return text.replace(/\&/gm, '&amp;').replace(/\</gm, '&lt;').replace(/\>/gm, '&rt;');
 }
 /**
  * parse markdown message to valid entities array.
@@ -61,7 +48,7 @@ function replaceTag(text) {
  * @param {String} text - input markdown text.
  */
 export function parse(text: string): [string, Entities[]] {
-  if (text == "") return [text, []];
+  if (text == '') return [text, []];
   text = replaceTag(text);
   let delims: string[] = [];
   // getting all delims
@@ -71,17 +58,14 @@ export function parse(text: string): [string, Entities[]] {
   let i = 0;
   let xe = new Set();
   // check if delims is escape or not.
-  let igr = (index) =>
-    index > -1 && text[index - 1] == "\\" && text[index] !== "\\";
+  let igr = (index) => index > -1 && text[index - 1] == '\\' && text[index] !== '\\';
   // convert the LINK_FORMAT to entities
   for (let match of execAll(text, LINK_REGEX)) {
     let [full, text_url, url] = match;
     if (text_url) {
       text =
         text.substring(-1, Number(match.index)) +
-        text
-          .substring(Number(match.index))
-          .replace(full, `<a href="${url}">${text_url}</a>`);
+        text.substring(Number(match.index)).replace(full, `<a href="${url}">${text_url}</a>`);
     }
   }
   // convert the LINK_ESC_REGEX to LINK_REGEX
@@ -89,13 +73,11 @@ export function parse(text: string): [string, Entities[]] {
     let [full, text_url, url] = match;
     text =
       text.substring(-1, Number(match.index)) +
-      text
-        .substring(Number(match.index))
-        .replace(full, `[${text_url}](${url})`);
+      text.substring(Number(match.index)).replace(full, `[${text_url}](${url})`);
   }
   while (i < text.length) {
     let index = -1;
-    let delim = "";
+    let delim = '';
     for (let de in DEFAULT_DELIMITERS) {
       let dei = text.indexOf(de, i);
       if (dei > -1 && (index == -1 || dei < index)) {
@@ -103,45 +85,35 @@ export function parse(text: string): [string, Entities[]] {
         delim = de;
       }
     }
-    if (index == -1 || delim == "" || delim == undefined) break;
+    if (index == -1 || delim == '' || delim == undefined) break;
     if (!igr(index)) {
       if (xe.has(delim)) {
         xe.delete(delim);
-        if (DEFAULT_DELIMITERS[delim] == "pre") {
+        if (DEFAULT_DELIMITERS[delim] == 'pre') {
           text =
             text.substring(-1, index) +
-            text
-              .substring(index)
-              .replace(delim, `</code></${DEFAULT_DELIMITERS[delim]}>`);
+            text.substring(index).replace(delim, `</code></${DEFAULT_DELIMITERS[delim]}>`);
         } else {
           text =
             text.substring(-1, index) +
-            text
-              .substring(index)
-              .replace(delim, `</${DEFAULT_DELIMITERS[delim]}>`);
+            text.substring(index).replace(delim, `</${DEFAULT_DELIMITERS[delim]}>`);
         }
       } else {
         xe.add(delim);
-        if (DEFAULT_DELIMITERS[delim] == "pre") {
+        if (DEFAULT_DELIMITERS[delim] == 'pre') {
           text =
             text.substring(-1, index) +
-            text
-              .substring(index)
-              .replace(delim, `<${DEFAULT_DELIMITERS[delim]}><code>`);
+            text.substring(index).replace(delim, `<${DEFAULT_DELIMITERS[delim]}><code>`);
         } else {
           text =
             text.substring(-1, index) +
-            text
-              .substring(index)
-              .replace(delim, `<${DEFAULT_DELIMITERS[delim]}>`);
+            text.substring(index).replace(delim, `<${DEFAULT_DELIMITERS[delim]}>`);
         }
       }
     } else {
       xe.delete(delim);
-      delim = "";
-      text =
-        text.substring(-1, index - 1) +
-        text.substring(index - 1).replace("\\", ""); //text.replace("\\","")
+      delim = '';
+      text = text.substring(-1, index - 1) + text.substring(index - 1).replace('\\', ''); //text.replace("\\","")
       index++;
     }
     i = index;

@@ -5,15 +5,14 @@
 //
 // Tgsnake is a free software : you can redistribute it and/or modify
 //  it under the terms of the MIT License as published.
-import { Parser } from "htmlparser2";
-import { Handler } from "htmlparser2/lib/Parser";
-import { Entities, IEntities } from "./Entities";
+import { Parser, Handler } from './platform.deno.ts';
+import { Entities, IEntities } from './Entities.ts';
 
 function stripText(text: string, entities: Entities[]) {
   if (!entities || !entities.length) {
     return text.trim();
   }
-  while (text && text[text.length - 1].trim() === "") {
+  while (text && text[text.length - 1].trim() === '') {
     const e = entities[entities.length - 1];
     if (e.offset + e.length == text.length) {
       if (e.length == 1) {
@@ -27,7 +26,7 @@ function stripText(text: string, entities: Entities[]) {
     }
     text = text.slice(0, -1);
   }
-  while (text && text[0].trim() === "") {
+  while (text && text[0].trim() === '') {
     for (let i = 0; i < entities.length; i++) {
       const e = entities[i];
       if (e.offset != 0) {
@@ -56,7 +55,7 @@ class HTMLParser implements Handler {
   private readonly _openTagsMeta: (string | undefined)[];
 
   constructor() {
-    this.text = "";
+    this.text = '';
     this.entities = [];
     this._buildingEntities = new Map<string, Entities>();
     this._openTags = [];
@@ -73,60 +72,54 @@ class HTMLParser implements Handler {
     this._openTagsMeta.unshift(undefined);
     let EntityType;
     const args: any = {};
-    if (name == "strong" || name == "b") {
-      EntityType = "bold";
-    } else if (name == "em" || name == "i") {
-      EntityType = "italic";
-    } else if (name == "u") {
-      EntityType = "underline";
-    } else if (name == "del" || name == "s") {
-      EntityType = "strike";
-    } else if (name == "blockquote") {
-      EntityType = "blockquote";
-    } else if (name == "code") {
-      const pre = this._buildingEntities.get("pre");
-      if (pre && pre.type == "pre") {
+    if (name == 'strong' || name == 'b') {
+      EntityType = 'bold';
+    } else if (name == 'em' || name == 'i') {
+      EntityType = 'italic';
+    } else if (name == 'u') {
+      EntityType = 'underline';
+    } else if (name == 'del' || name == 's') {
+      EntityType = 'strike';
+    } else if (name == 'blockquote') {
+      EntityType = 'blockquote';
+    } else if (name == 'code') {
+      const pre = this._buildingEntities.get('pre');
+      if (pre && pre.type == 'pre') {
         try {
-          pre.language = attributes.class.slice(
-            "language-".length,
-            attributes.class.length
-          );
+          pre.language = attributes.class.slice('language-'.length, attributes.class.length);
         } catch (e) {}
       } else {
-        EntityType = "code";
+        EntityType = 'code';
       }
-    } else if (name == "pre") {
-      EntityType = "pre";
-      args["language"] = "";
-    } else if (name == "a") {
+    } else if (name == 'pre') {
+      EntityType = 'pre';
+      args['language'] = '';
+    } else if (name == 'a') {
       let url: string | undefined = attributes.href;
       if (!url) {
         return;
       }
       let mention = /tg:\/\/user\?id=(\d+)/gi.exec(url);
-      if (url.startsWith("mailto:")) {
-        url = url.slice("mailto:".length, url.length);
-        EntityType = "email";
+      if (url.startsWith('mailto:')) {
+        url = url.slice('mailto:'.length, url.length);
+        EntityType = 'email';
       } else if (mention) {
-        (EntityType = "mentionName"),
-          (args["userId"] = BigInt(String(mention[1])));
+        (EntityType = 'mentionName'), (args['userId'] = BigInt(String(mention[1])));
         url = undefined;
       } else {
-        EntityType = "textUrl";
-        args["url"] = url;
+        EntityType = 'textUrl';
+        args['url'] = url;
         url = undefined;
       }
       this._openTagsMeta.shift();
       this._openTagsMeta.unshift(url);
     } else if (
-      name == "spoiler" ||
-      (name == "span" &&
-        attributes.class &&
-        attributes.class == "tg-spoiler") ||
-      name == "sp" ||
-      name == "tg-spoiler"
+      name == 'spoiler' ||
+      (name == 'span' && attributes.class && attributes.class == 'tg-spoiler') ||
+      name == 'sp' ||
+      name == 'tg-spoiler'
     ) {
-      EntityType = "spoiler";
+      EntityType = 'spoiler';
     }
     if (EntityType && !this._buildingEntities.has(name)) {
       this._buildingEntities.set(
@@ -142,8 +135,8 @@ class HTMLParser implements Handler {
   }
 
   ontext(text: string) {
-    const previousTag = this._openTags.length > 0 ? this._openTags[0] : "";
-    if (previousTag == "a") {
+    const previousTag = this._openTags.length > 0 ? this._openTags[0] : '';
+    if (previousTag == 'a') {
       const url = this._openTagsMeta[0];
       if (url) {
         text = url;
@@ -164,11 +157,7 @@ class HTMLParser implements Handler {
       this.entities.push(entity);
     }
   }
-  onattribute(
-    name: string,
-    value: string,
-    quote?: string | undefined | null
-  ): void {}
+  onattribute(name: string, value: string, quote?: string | undefined | null): void {}
   oncdataend(): void {}
   oncdatastart(): void {}
   oncomment(data: string): void {}
@@ -185,9 +174,9 @@ function inRange(x, min, max) {
 }
 function unEscape(text) {
   return text
-    .replace(/\&amp\;/gm, "&")
-    .replace(/\&lt\;/gm, "<")
-    .replace(/\&rt\;/gm, ">");
+    .replace(/\&amp\;/gm, '&')
+    .replace(/\&lt\;/gm, '<')
+    .replace(/\&rt\;/gm, '>');
 }
 export function parse(html: string): [string, Entities[]] {
   if (!html) {
@@ -209,18 +198,18 @@ export function parse(html: string): [string, Entities[]] {
     let nm = entities[im + 1];
     if (nm) {
       if (inRange(nm.offset, em.offset, em.offset + em.length)) {
-        if (em.type == "code") {
-          if (nm.type !== "spoiler") entities.splice(im + 1, 1);
-        } else if (nm.type == "code") {
-          if (em.type !== "spoiler") entities.splice(im, 1);
+        if (em.type == 'code') {
+          if (nm.type !== 'spoiler') entities.splice(im + 1, 1);
+        } else if (nm.type == 'code') {
+          if (em.type !== 'spoiler') entities.splice(im, 1);
         }
       }
     } else if (pm) {
       if (inRange(pm.offset, em.offset, em.offset + em.length)) {
-        if (em.type == "code") {
-          if (pm.type !== "spoiler") entities.splice(im - 1, 1);
-        } else if (pm.type == "code") {
-          if (em.type !== "spoiler") entities.splice(im, 1);
+        if (em.type == 'code') {
+          if (pm.type !== 'spoiler') entities.splice(im - 1, 1);
+        } else if (pm.type == 'code') {
+          if (em.type !== 'spoiler') entities.splice(im, 1);
         }
       }
     }

@@ -5,10 +5,9 @@
 //
 // Tgsnake is a free software : you can redistribute it and/or modify
 //  it under the terms of the MIT License as published.
-import { parse as MDParser } from "./markdown";
-import { parse as HTMLParser } from "./html";
-import { Entities, IEntities } from "./Entities";
-import ParserError from "./ParserError";
-import { Parser } from "./Parser";
-export default Parser;
-export { MDParser, HTMLParser, Entities, IEntities, ParserError };
+import { parse as MDParser } from './markdown.ts';
+import { parse as HTMLParser } from './html.ts';
+import { Entities, IEntities } from './Entities.ts';
+import ParserError from './ParserError.ts';
+import * as Parser from './Parser.ts';
+export { MDParser, HTMLParser, Entities, IEntities, ParserError, Parser };

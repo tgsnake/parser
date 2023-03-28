@@ -1,3 +1,4 @@
+# @tgsnake/parser
 core framework for tgsnake for parsing message.   
 example : 
 ```js 
@@ -15,31 +16,24 @@ it will be
 ]
 ```
 # Quick Start 
-## Using tgsnake 
-```ts 
-// index.ts 
-import {Snake,GramJs} from "tgsnake"
-import Parser from "@tgsnake/parser"
-const parser = new Parser(Gramjs.Api) 
-let text = "**bold**"
-console.log(parser.parse(text,"markdown"))
-```
-## Using gramjs 
-```ts 
-// index.ts 
-import {Api} from "telegram"
-import Parser from "@tgsnake/parser"
-const parser = new Parser(Api) 
-let text = "**bold**"
-console.log(parser.parse(text,"markdown"))
+> **Breaking Changes in v2!**  
+In this v2 is not supported gramjs framework by default! Unlike v1 which supports it, in v2 we fully use `@tgsnake/core`.
+
+```ts
+// index.ts
+import { Parser } from '@tgsnake/parser'
+import { Client } from '@tgsnake/core'
+const client = new Client(...)
+
+const entities = Parser.parse('**Hello World**,'markdown')
 ```
 ## converting tgsnake entities to raw api
 ```ts 
-parser.toRaw(gramjs_client,tgsnake_entities)
+Parser.toRaw(client,entities)
 ```
 ## converting raw entities to tgsnake entities
 ```ts 
-parser.fromRaw(raw_entities)
+Parser.fromRaw(TypeMessageEntities)
 ```
 ## available parseMode 
 ### markdown 
@@ -91,4 +85,4 @@ for escaping replace `<` with `&lt;` , `>` with `&rt;` , `&` with `&amp;`
 "&lt;blockquote&rt;blockquote&lt;/blockquote&rt;"
 ```
   
-Build with ♥️ by [tgsnake dev](https://t.me/+Fdu8unNApTg3ZGU1).
+Build with ♥️ by [tgsnake dev](https://t.me/tgsnakechat).
