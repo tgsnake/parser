@@ -5,6 +5,7 @@
 //
 // Tgsnake is a free software : you can redistribute it and/or modify
 //  it under the terms of the MIT License as published.
+import { inspect } from './platform.deno.ts';
 export type TypeMessageEntity =
   | 'mention'
   | 'hashtag'
@@ -58,6 +59,9 @@ export class Entities {
       }
     }
     return toPrint;
+  }
+  [Symbol.for('Deno.customInspect')](): string {
+    return String(inspect(this[Symbol.for('nodejs.util.inspect.custom')](), { colors: true }));
   }
   toJSON(): { [key: string]: any } {
     const toPrint: { [key: string]: any } = {

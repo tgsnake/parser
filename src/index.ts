@@ -7,7 +7,7 @@
 //  it under the terms of the MIT License as published.
 import { parse as MDParser } from './markdown.ts';
 import { parse as HTMLParser } from './html.ts';
-import { Entities, IEntities } from './Entities.ts';
+import { Entities, type IEntities } from './Entities.ts';
 import ParserError from './ParserError.ts';
 import * as Parser from './Parser.ts';
 export { MDParser, HTMLParser, Entities, IEntities, ParserError, Parser };
