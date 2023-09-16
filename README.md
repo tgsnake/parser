@@ -116,7 +116,7 @@ for escaping replace `<` with `&lt;` , `>` with `&rt;` , `&` with `&amp;`
 | ~~Strike~~ | `~~text~~` | `<s>text</s>` or `<del>text</del>` |  |
 | `Code` | <code>\`text\`</code> | `<code>text</code>` |  |
 | `Pre` | <code>\`\`\`text\`\`\`</code> | `<pre><code>text</code></pre>` or `<pre language-javascript><code>text</code></pre>` |  |
-| [Link](#) | `[text](link)` | `<a href="link">text</a>` | You cal fill the link params with `tg://user?id=123456` for mentioning user and `tg://emoji?id=123456` for custom emoji. |
+| [Link](#) | `[text](link)` | `<a href="link">text</a>` | You can fill the link params with `tg://user?id=123456` for mentioning user and `tg://emoji?id=123456` for custom emoji. |
 | <u>Underline</u> | `--text--` | `<u>text</u>` |  |
 | Spoiler | `\|\|text\|\|` | `<spoiler>text</spoiler>` or `<sp>text</sp>` or `<tg-spoiler>text</tg-spoiler>` or `<span class="tg-spoiler">text</span>` |  |
 | Custom Emoji | `[text](tg://emoji?id=123456)` | `<tg-emoji id="123456">text</tg-emoji>` or `<emoji id="123456">text</emoji>` or `<span class="tg-emoji" id="123456">text</span>` | HTML tag has 2 way to define the emojiId. First using `id` attribute and seconds use `emojiId` attribute. |
