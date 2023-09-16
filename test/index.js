@@ -1,2 +1,7 @@
 const { Parser } = require('../lib');
-console.log(Parser.parse('**hello**', 'markdown'));
+let text = `
+**hello**
+[a](tg://emoji?id=1)
+||spoiler||
+`;
+console.log(Parser.parse(text, 'markdown'));

@@ -1,10 +1,12 @@
-// Tgsnake - Telegram MTProto framework developed based on gram.js.
-// Copyright (C) 2021 Butthx <https://guthub.com/butthx>
-//
-// This file is part of Tgsnake
-//
-// Tgsnake is a free software : you can redistribute it and/or modify
-//  it under the terms of the MIT License as published.
+/**
+ * tgsnake - Telegram MTProto framework for nodejs.
+ * Copyright (C) 2023 butthx <https://github.com/butthx>
+ *
+ * THIS FILE IS PART OF TGSNAKE
+ *
+ * tgsnake is a free software : you can redistribute it and/or modify
+ * it under the terms of the MIT License as published.
+ */
 import { Parser, Handler } from './platform.deno.ts';
 import { Entities, IEntities } from './Entities.ts';
 
@@ -66,7 +68,7 @@ class HTMLParser implements Handler {
     name: string,
     attributes: {
       [s: string]: string;
-    }
+    },
   ) {
     this._openTags.unshift(name);
     this._openTagsMeta.unshift(undefined);
@@ -100,11 +102,17 @@ class HTMLParser implements Handler {
         return;
       }
       let mention = /tg:\/\/user\?id=(\d+)/gi.exec(url);
+      let emoji = /tg:\/\/emoji\?id=(\d+)/gi.exec(url);
       if (url.startsWith('mailto:')) {
         url = url.slice('mailto:'.length, url.length);
         EntityType = 'email';
       } else if (mention) {
-        (EntityType = 'mentionName'), (args['userId'] = BigInt(String(mention[1])));
+        EntityType = 'mentionName';
+        args['userId'] = BigInt(String(mention[1]));
+        url = undefined;
+      } else if (emoji) {
+        EntityType = 'customEmoji';
+        args['emojiId'] = BigInt(String(emoji[1]));
         url = undefined;
       } else {
         EntityType = 'textUrl';
@@ -120,6 +128,14 @@ class HTMLParser implements Handler {
       name == 'tg-spoiler'
     ) {
       EntityType = 'spoiler';
+    } else if (
+      (name == 'tg-emoji' ||
+        (name == 'span' && attributes.class && attributes.class == 'tg-emoji') ||
+        name == 'emoji') &&
+      (attributes.id || attributes.emojiId)
+    ) {
+      EntityType = 'customEmoji';
+      args['emojiId'] = attributes.id ? BigInt(attributes.id) : attributes.emojiId;
     }
     if (EntityType && !this._buildingEntities.has(name)) {
       this._buildingEntities.set(
@@ -129,7 +145,7 @@ class HTMLParser implements Handler {
           length: 0,
           type: EntityType,
           ...args,
-        })
+        }),
       );
     }
   }

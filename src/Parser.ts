@@ -1,10 +1,12 @@
-// Tgsnake - Telegram MTProto framework developed based on gram.js.
-// Copyright (C) 2021 Butthx <https://guthub.com/butthx>
-//
-// This file is part of Tgsnake
-//
-// Tgsnake is a free software : you can redistribute it and/or modify
-//  it under the terms of the MIT License as published.
+/**
+ * tgsnake - Telegram MTProto framework for nodejs.
+ * Copyright (C) 2023 butthx <https://github.com/butthx>
+ *
+ * THIS FILE IS PART OF TGSNAKE
+ *
+ * tgsnake is a free software : you can redistribute it and/or modify
+ * it under the terms of the MIT License as published.
+ */
 import { Entities } from './Entities.ts';
 import { parse as MDParser } from './markdown.ts';
 import { parse as HTMLParser } from './html.ts';
@@ -38,7 +40,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'mention',
-        })
+        }),
       );
       continue;
     }
@@ -49,7 +51,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'hashtag',
-        })
+        }),
       );
       continue;
     }
@@ -60,7 +62,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'botCommand',
-        })
+        }),
       );
       continue;
     }
@@ -71,7 +73,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'url',
-        })
+        }),
       );
       continue;
     }
@@ -82,7 +84,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'email',
-        })
+        }),
       );
       continue;
     }
@@ -93,7 +95,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'bold',
-        })
+        }),
       );
       continue;
     }
@@ -104,7 +106,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'italic',
-        })
+        }),
       );
       continue;
     }
@@ -115,7 +117,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'code',
-        })
+        }),
       );
       continue;
     }
@@ -127,7 +129,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           length: ent.length,
           language: ent.language,
           type: 'pre',
-        })
+        }),
       );
       continue;
     }
@@ -139,7 +141,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           length: ent.length,
           url: ent.url,
           type: 'textUrl',
-        })
+        }),
       );
       continue;
     }
@@ -151,7 +153,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           length: ent.length,
           userId: BigInt(String(ent.userId)),
           type: 'mentionName',
-        })
+        }),
       );
       continue;
     }
@@ -162,7 +164,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'phone',
-        })
+        }),
       );
       continue;
     }
@@ -173,7 +175,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'cashtag',
-        })
+        }),
       );
       continue;
     }
@@ -184,7 +186,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'underline',
-        })
+        }),
       );
       continue;
     }
@@ -195,7 +197,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'strike',
-        })
+        }),
       );
       continue;
     }
@@ -206,7 +208,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'blockquote',
-        })
+        }),
       );
       continue;
     }
@@ -217,7 +219,7 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'bankCard',
-        })
+        }),
       );
       continue;
     }
@@ -228,9 +230,20 @@ export function fromRaw(entities: Raw.TypeMessageEntity[]) {
           offset: ent.offset,
           length: ent.length,
           type: 'spoiler',
-        })
+        }),
       );
       continue;
+    }
+    if (ent instanceof Raw.MessageEntityCustomEmoji) {
+      ent as Raw.MessageEntityCustomEmoji;
+      tmp.push(
+        new Entities({
+          offset: ent.offset,
+          length: ent.length,
+          emojiId: ent.documentId,
+          type: 'customEmoji',
+        }),
+      );
     }
   }
   return tmp;
@@ -241,7 +254,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
       `Client not found!`,
       `Plase make sure you set the client. eg : Parser.fromRaw(client,entities).`,
       404,
-      'Parser.fromRaw'
+      'Parser.fromRaw',
     );
   }
   let tmp: Raw.TypeMessageEntity[] = [];
@@ -252,7 +265,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityMention({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'hashtag':
@@ -260,7 +273,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityHashtag({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'botCommand':
@@ -268,7 +281,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityBotCommand({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'url':
@@ -276,7 +289,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityMention({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'email':
@@ -284,7 +297,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityEmail({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'bold':
@@ -292,7 +305,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityBold({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'italic':
@@ -300,7 +313,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityItalic({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'code':
@@ -308,7 +321,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityCode({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'pre':
@@ -317,7 +330,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
             offset: ent.offset,
             length: ent.length,
             language: ent.language,
-          })
+          }),
         );
         break;
       case 'textUrl':
@@ -326,7 +339,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
             offset: ent.offset,
             length: ent.length,
             url: ent.url,
-          })
+          }),
         );
         break;
       case 'mentionName':
@@ -336,7 +349,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
             offset: ent.offset,
             length: ent.length,
             userId: await getInputUser(peer),
-          })
+          }),
         );
         break;
       case 'phone':
@@ -344,7 +357,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityPhone({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'cashtag':
@@ -352,7 +365,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityCashtag({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'underline':
@@ -360,7 +373,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityUnderline({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'strike':
@@ -368,7 +381,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityStrike({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'blockquote':
@@ -376,7 +389,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityBlockquote({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'bankCard':
@@ -384,7 +397,7 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntityBankCard({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
         );
         break;
       case 'spoiler':
@@ -392,7 +405,16 @@ export async function toRaw(client: Client, entities: Entities[]) {
           new Raw.MessageEntitySpoiler({
             offset: ent.offset,
             length: ent.length,
-          })
+          }),
+        );
+        break;
+      case 'customEmoji':
+        tmp.push(
+          new Raw.MessageEntityCustomEmoji({
+            offset: ent.offset,
+            length: ent.length,
+            documentId: ent.emojiId,
+          }),
         );
         break;
       default:

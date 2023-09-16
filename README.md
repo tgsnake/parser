@@ -88,6 +88,7 @@ for escaping just add backslash (`\`) before markdown syntax.
 "<a href="link">text</a>"
 "<u>underline</u>"
 "<spoiler>spoiler</spoiler>" || "<sp>spoiler</sp>" || "<tg-spoiler>spoiler</tg-spoiler>" || '<span class="tg-spoiler">spoiler</span>'
+"<tg-emoji id="1">text<tg-emoji>" || "<span id="1" class="tg-emoji">text<span>"
 "<blockquote>blockquote</blockquote>"
 ```
 
@@ -105,5 +106,20 @@ for escaping replace `<` with `&lt;` , `>` with `&rt;` , `&` with `&amp;`
 "&lt;spoiler&rt;spoiler&lt;/spoiler&rt;" || "&lt;sp&rt;spoiler&lt;/sp&rt;" || "&lt;tg-spoiler&rt;spoiler&lt;/tg-spoiler&rt;" || '&lt;span class="tg-spoiler"&rt;spoiler&lt;/span&rt;'
 "&lt;blockquote&rt;blockquote&lt;/blockquote&rt;"
 ```
+
+### Available Formating Style
+
+| Entity Type | Markdown style | HTML style | Description |
+| :-: | :-: | :-: | :-- |
+| **Bold** | `*text*` | `<b>text</b>` or `<strong>text</strong>` |  |
+| **Italic** | `__text__` | `<i>text</i>` or `<em>text</em>` |  |
+| ~~Strike~~ | `~~text~~` | `<s>text</s>` or `<del>text</del>` |  |
+| `Code` | <code>\`text\`</code> | `<code>text</code>` |  |
+| `Pre` | <code>\`\`\`text\`\`\`</code> | `<pre><code>text</code></pre>` or `<pre language-javascript><code>text</code></pre>` |  |
+| [Link](#) | `[text](link)` | `<a href="link">text</a>` | You cal fill the link params with `tg://user?id=123456` for mentioning user and `tg://emoji?id=123456` for custom emoji. |
+| <u>Underline</u> | `--text--` | `<u>text</u>` |  |
+| Spoiler | `\|\|text\|\|` | `<spoiler>text</spoiler>` or `<sp>text</sp>` or `<tg-spoiler>text</tg-spoiler>` or `<span class="tg-spoiler">text</span>` |  |
+| Custom Emoji | `[text](tg://emoji?id=123456)` | `<tg-emoji id="123456">text</tg-emoji>` or `<emoji id="123456">text</emoji>` or `<span class="tg-emoji" id="123456">text</span>` | HTML tag has 2 way to define the emojiId. First using `id` attribute and seconds use `emojiId` attribute. |
+| Blockquote | `unavailable` | `<blockquote>text</blockquote>` |  |
 
 Build with ♥️ by [tgsnake dev](https://t.me/tgsnakechat).

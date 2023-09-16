@@ -1,10 +1,12 @@
-// Tgsnake - Telegram MTProto framework developed based on gram.js.
-// Copyright (C) 2021 Butthx <https://guthub.com/butthx>
-//
-// This file is part of Tgsnake
-//
-// Tgsnake is a free software : you can redistribute it and/or modify
-//  it under the terms of the MIT License as published.
+/**
+ * tgsnake - Telegram MTProto framework for nodejs.
+ * Copyright (C) 2023 butthx <https://github.com/butthx>
+ *
+ * THIS FILE IS PART OF TGSNAKE
+ *
+ * tgsnake is a free software : you can redistribute it and/or modify
+ * it under the terms of the MIT License as published.
+ */
 import { inspect } from './platform.deno.ts';
 export type TypeMessageEntity =
   | 'mention'
@@ -24,7 +26,8 @@ export type TypeMessageEntity =
   | 'strike'
   | 'blockquote'
   | 'bankCard'
-  | 'spoiler';
+  | 'spoiler'
+  | 'customEmoji';
 export interface IEntities {
   offset: number;
   length: number;
@@ -32,6 +35,7 @@ export interface IEntities {
   language?: string;
   url?: string;
   userId?: bigint;
+  emojiId?: bigint;
 }
 
 export class Entities {
@@ -41,6 +45,7 @@ export class Entities {
   language!: string;
   url!: string;
   userId!: bigint;
+  emojiId!: bigint;
   constructor(entities: IEntities) {
     for (let [key, value] of Object.entries(entities)) {
       this[key] = value;
