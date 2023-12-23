@@ -103,9 +103,25 @@ export function parse(text: string): [string, Entities[]] {
       } else {
         xe.add(delim);
         if (DEFAULT_DELIMITERS[delim] == 'pre') {
-          text =
-            text.substring(-1, index) +
-            text.substring(index).replace(delim, `<${DEFAULT_DELIMITERS[delim]}><code>`);
+          const [input, _delim, language] = /^(```)(\w+)\n/.exec(text.substring(index)) || [
+            text.substring(index),
+            '',
+            '',
+          ];
+          if (language !== '') {
+            text =
+              text.substring(-1, index) +
+              text
+                .substring(index)
+                .replace(
+                  /^(```)(\w+)\n/,
+                  `<${DEFAULT_DELIMITERS[delim]} language="${language}"><code>`,
+                );
+          } else {
+            text =
+              text.substring(-1, index) +
+              text.substring(index).replace(delim, `<${DEFAULT_DELIMITERS[delim]}><code>`);
+          }
         } else {
           text =
             text.substring(-1, index) +

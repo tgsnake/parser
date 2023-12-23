@@ -95,7 +95,7 @@ class HTMLParser implements Handler {
       }
     } else if (name == 'pre') {
       EntityType = 'pre';
-      args['language'] = '';
+      args['language'] = attributes.language || '';
     } else if (name == 'a') {
       let url: string | undefined = attributes.href;
       if (!url) {
