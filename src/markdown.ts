@@ -1,6 +1,6 @@
 /**
  * tgsnake - Telegram MTProto framework for nodejs.
- * Copyright (C) 2023 butthx <https://github.com/butthx>
+ * Copyright (C) 2024 butthx <https://github.com/butthx>
  *
  * THIS FILE IS PART OF TGSNAKE
  *
@@ -27,6 +27,7 @@ const DEFAULT_DELIMITERS = {
 //const LINK_FORMAT = "[%s](%s)"
 const LINK_REGEX = /\[(.+?)\]\((.+?)\)/gi;
 const LINK_ESC_REGEX = /\[(.+?)\]\\\((.+?)\)/gi;
+
 function inRange(x, min, max) {
   return (x - min) * (x - max) <= 0;
 }
@@ -51,7 +52,6 @@ function replaceTag(text) {
  */
 export function parse(text: string): [string, Entities[]] {
   if (text == '') return [text, []];
-  text = replaceTag(text);
   let delims: string[] = [];
   // getting all delims
   for (let key in DEFAULT_DELIMITERS) {
@@ -61,6 +61,35 @@ export function parse(text: string): [string, Entities[]] {
   let xe = new Set();
   // check if delims is escape or not.
   let igr = (index) => index > -1 && text[index - 1] == '\\' && text[index] !== '\\';
+  // convert blockquotes
+  let hasBlockquote = false;
+  const _text = text;
+  text = '';
+  for (let line of _text.split('\n')) {
+    if (line.startsWith('**>') || line.startsWith('>')) {
+      let mark = line.startsWith('**>');
+      let blockquoteText = mark ? line.replace('**>', '') : line.replace('>', '');
+      if (hasBlockquote) {
+        text += replaceTag(blockquoteText) + '\n';
+      } else {
+        if (mark) {
+          text += '<blockquote expandable>';
+          text += replaceTag(blockquoteText) + '\n';
+        } else {
+          hasBlockquote = true;
+          text += '<blockquote>';
+          text += replaceTag(blockquoteText) + '\n';
+        }
+      }
+    } else {
+      // close old blockquotes
+      if (hasBlockquote) {
+        text += '</blockquote>\n';
+        hasBlockquote = false;
+      }
+      text += replaceTag(line) + '\n';
+    }
+  }
   // convert the LINK_FORMAT to entities
   for (let match of execAll(text, LINK_REGEX)) {
     let [full, text_url, url] = match;

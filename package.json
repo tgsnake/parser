@@ -1,6 +1,6 @@
 {
   "name": "@tgsnake/parser",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "core framework for tgsnake for parsing message.",
   "main": "./lib/index.js",
   "scripts": {
@@ -20,13 +20,13 @@
     "lib/**/*"
   ],
   "dependencies": {
-    "htmlparser2": "^9.0.0"
+    "htmlparser2": "^9.1.0"
   },
   "devDependencies": {
-    "@tgsnake/core": "^1.10.5",
-    "@types/node": "^20.10.5",
-    "deno2node": "^1.11.0",
-    "prettier": "^3.1.1"
+    "@tgsnake/core": "^1.13.4",
+    "@types/node": "^20.14.2",
+    "deno2node": "^1.12.0",
+    "prettier": "^3.3.1"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.2.2"
 }

@@ -1,6 +1,6 @@
 /**
  * tgsnake - Telegram MTProto framework for nodejs.
- * Copyright (C) 2023 butthx <https://github.com/butthx>
+ * Copyright (C) 2024 butthx <https://github.com/butthx>
  *
  * THIS FILE IS PART OF TGSNAKE
  *
@@ -36,6 +36,7 @@ export interface IEntities {
   url?: string;
   userId?: bigint;
   emojiId?: bigint;
+  collapsed?: boolean;
 }
 
 export class Entities {
@@ -46,6 +47,7 @@ export class Entities {
   url!: string;
   userId!: bigint;
   emojiId!: bigint;
+  collapsed!: boolean;
   constructor(entities: IEntities) {
     for (let [key, value] of Object.entries(entities)) {
       this[key] = value;

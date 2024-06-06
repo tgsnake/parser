@@ -1,6 +1,6 @@
 /**
  * tgsnake - Telegram MTProto framework for nodejs.
- * Copyright (C) 2023 butthx <https://github.com/butthx>
+ * Copyright (C) 2024 butthx <https://github.com/butthx>
  *
  * THIS FILE IS PART OF TGSNAKE
  *
@@ -72,18 +72,22 @@ class HTMLParser implements Handler {
   ) {
     this._openTags.unshift(name);
     this._openTagsMeta.unshift(undefined);
-    let EntityType;
+    let entityType;
     const args: any = {};
     if (name == 'strong' || name == 'b') {
-      EntityType = 'bold';
+      entityType = 'bold';
     } else if (name == 'em' || name == 'i') {
-      EntityType = 'italic';
+      entityType = 'italic';
     } else if (name == 'u') {
-      EntityType = 'underline';
+      entityType = 'underline';
     } else if (name == 'del' || name == 's') {
-      EntityType = 'strike';
+      entityType = 'strike';
     } else if (name == 'blockquote') {
-      EntityType = 'blockquote';
+      entityType = 'blockquote';
+      if ('expandable' in attributes) {
+        args['collapsed'] =
+          attributes.expandable === '' || attributes.expandable.toLowerCase() === 'true' || false;
+      }
     } else if (name == 'code') {
       const pre = this._buildingEntities.get('pre');
       if (pre && pre.type == 'pre') {
@@ -91,10 +95,10 @@ class HTMLParser implements Handler {
           pre.language = attributes.class.slice('language-'.length, attributes.class.length);
         } catch (e) {}
       } else {
-        EntityType = 'code';
+        entityType = 'code';
       }
     } else if (name == 'pre') {
-      EntityType = 'pre';
+      entityType = 'pre';
       args['language'] = attributes.language || '';
     } else if (name == 'a') {
       let url: string | undefined = attributes.href;
@@ -105,17 +109,17 @@ class HTMLParser implements Handler {
       let emoji = /tg:\/\/emoji\?id=(\d+)/gi.exec(url);
       if (url.startsWith('mailto:')) {
         url = url.slice('mailto:'.length, url.length);
-        EntityType = 'email';
+        entityType = 'email';
       } else if (mention) {
-        EntityType = 'mentionName';
+        entityType = 'mentionName';
         args['userId'] = BigInt(String(mention[1]));
         url = undefined;
       } else if (emoji) {
-        EntityType = 'customEmoji';
+        entityType = 'customEmoji';
         args['emojiId'] = BigInt(String(emoji[1]));
         url = undefined;
       } else {
-        EntityType = 'textUrl';
+        entityType = 'textUrl';
         args['url'] = url;
         url = undefined;
       }
@@ -127,23 +131,23 @@ class HTMLParser implements Handler {
       name == 'sp' ||
       name == 'tg-spoiler'
     ) {
-      EntityType = 'spoiler';
+      entityType = 'spoiler';
     } else if (
       (name == 'tg-emoji' ||
         (name == 'span' && attributes.class && attributes.class == 'tg-emoji') ||
         name == 'emoji') &&
       (attributes.id || attributes.emojiId)
     ) {
-      EntityType = 'customEmoji';
+      entityType = 'customEmoji';
       args['emojiId'] = attributes.id ? BigInt(attributes.id) : attributes.emojiId;
     }
-    if (EntityType && !this._buildingEntities.has(name)) {
+    if (entityType && !this._buildingEntities.has(name)) {
       this._buildingEntities.set(
         name,
         new Entities({
           offset: this.text.length,
           length: 0,
-          type: EntityType,
+          type: entityType,
           ...args,
         }),
       );

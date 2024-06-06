@@ -61,6 +61,8 @@ Parser.fromRaw(TypeMessageEntities);
 '[text](link)';
 '--underline--';
 '||spoiler||';
+'>blockquote';
+'**>expandable blockquote';
 ````
 
 **Escaping**  
@@ -75,6 +77,8 @@ for escaping just add backslash (`\`) before markdown syntax.
 '[text]\\(link)';
 '\\--underline\\--';
 '\\||spoiler\\||';
+'\\>blockquote';
+'\\**>expandable blockquote';
 ````
 
 ### html
@@ -90,6 +94,7 @@ for escaping just add backslash (`\`) before markdown syntax.
 "<spoiler>spoiler</spoiler>" || "<sp>spoiler</sp>" || "<tg-spoiler>spoiler</tg-spoiler>" || '<span class="tg-spoiler">spoiler</span>'
 "<tg-emoji id="1">text<tg-emoji>" || "<span id="1" class="tg-emoji">text<span>"
 "<blockquote>blockquote</blockquote>"
+"<blockquote expandable>expandable blockquote</blockquote>"
 ```
 
 **Escaping**  
@@ -120,6 +125,6 @@ for escaping replace `<` with `&lt;` , `>` with `&rt;` , `&` with `&amp;`
 | <u>Underline</u> | `--text--` | `<u>text</u>` |  |
 | Spoiler | `\|\|text\|\|` | `<spoiler>text</spoiler>` or `<sp>text</sp>` or `<tg-spoiler>text</tg-spoiler>` or `<span class="tg-spoiler">text</span>` |  |
 | Custom Emoji | `[text](tg://emoji?id=123456)` | `<tg-emoji id="123456">text</tg-emoji>` or `<emoji id="123456">text</emoji>` or `<span class="tg-emoji" id="123456">text</span>` | HTML tag has 2 way to define the emojiId. First using `id` attribute and seconds use `emojiId` attribute. |
-| Blockquote | `unavailable` | `<blockquote>text</blockquote>` |  |
+| Blockquote | `>text` | `<blockquote>text</blockquote>` |  |
 
 Build with ♥️ by [tgsnake dev](https://t.me/tgsnakechat).
